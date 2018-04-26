@@ -30,6 +30,19 @@
 				
 				<?php }	?>
 
+
+				<?php
+				
+				$texts = glob("songs/*.txt");
+  
+				foreach ($texts as $text) {	?>
+
+					<li class="playlistitem">
+						<a href="<?= $text ?>"><?= basename($text)?></a>
+					</li>
+				
+				<?php }	?>
+
 			</ul>
 		</div>
 	</body>
