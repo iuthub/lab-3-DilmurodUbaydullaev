@@ -8,7 +8,6 @@
 	</head>
 	<body>
 		<div id="header">
-
 			<h1>190M Music Playlist Viewer</h1>
 			<h2>Search Through Your Playlists and Music</h2>
 		</div>
@@ -16,33 +15,36 @@
 
 		<div id="listarea">
 			<ul id="musiclist">
-	
-				
 				<?php
-				
-				$songs = glob("songs/*.mp3");
-  
-				foreach ($songs as $song) {	?>
-
-					<li class="mp3item">
-						<a href="<?= $song ?>"><?= basename($song)?></a>
-					</li>
-				
-				<?php }	?>
-
-
+				if(isset($_GET["playlist"])){
+				?>
+					<h3><?= $_GET["playlist"]?>(<a href="music.php">Back</a>)</h3>
 				<?php
-				
-				$texts = glob("songs/*.txt");
-  
-				foreach ($texts as $text) {	?>
-
-					<li class="playlistitem">
-						<a href="<?= $text ?>"><?= basename($text)?></a>
-					</li>
-				
-				<?php }	?>
-
+					$lines = file("songs/".$_GET["playlist"],FILE_IGNORE_NEW_LINES);
+					foreach ($lines as $item) {?>
+						<li class="mp3item">
+						<a href="songs/<?= $item?>"><?= basename($item)?></a>
+						(<?= filesize("songs/$item")?> b)
+						</li>
+					<?php 
+					}
+				}else{
+					foreach (glob("songs/*.mp3") as $item) {?>
+						<li class="mp3item">
+						<a href="<?= $item?>"><?= basename($item)?></a>
+						(<?= filesize("$item")?> b)
+						</li>
+					<?php 
+					}
+					
+					foreach (glob("songs/*.txt") as $item) {?>
+						<li class="playlistitem">
+						<a href="music.php?playlist=<?= basename($item)?>"><?=  basename($item)?></a>
+						(<?= filesize("$item")?> b)
+						</li>
+					<?php 
+					}
+				}?>
 			</ul>
 		</div>
 	</body>
